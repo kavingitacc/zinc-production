@@ -180,33 +180,43 @@ function validateInput(input) {
         return true;
     }
     
-    const numValue = parseFloat(value);
-    
-    // Check if valid number
-    if (isNaN(numValue)) {
-        showError(input, 'Please enter a valid number');
-        return false;
-    }
-    
-    // Check for negative values
-    if (numValue < 0) {
-        showError(input, 'Value cannot be negative');
-        return false;
-    }
-    
-    // Zn % validation
-    if (input.id.includes('znPercent')) {
-        if (numValue > 100) {
-            showError(input, 'Zn % cannot exceed 100%');
+    // Engineer name validation (letters and spaces only)
+    if (input.id.includes('engineer')) {
+        if (!/^[a-zA-Z\s]+$/.test(value)) {
+            showError(input, 'Engineer name must contain letters and spaces only (no numbers or special characters)');
             return false;
         }
     }
     
-    // Reactor Utilization validation
-    if (input.id === 'reactorUtilization') {
-        if (numValue < 1 || numValue > 100) {
-            showError(input, 'Reactor Utilization must be between 1 and 100%');
+    const numValue = parseFloat(value);
+    
+    // Check if valid number (for numeric fields)
+    if (input.type === 'number') {
+        if (isNaN(numValue)) {
+            showError(input, 'Please enter a valid number');
             return false;
+        }
+        
+        // Check for negative values
+        if (numValue < 0) {
+            showError(input, 'Value cannot be negative');
+            return false;
+        }
+        
+        // Zn % validation
+        if (input.id.includes('znPercent')) {
+            if (numValue > 100) {
+                showError(input, 'Zn % cannot exceed 100%');
+                return false;
+            }
+        }
+        
+        // Reactor Utilization validation
+        if (input.id === 'reactorUtilization') {
+            if (numValue < 1 || numValue > 100) {
+                showError(input, 'Reactor Utilization must be between 1 and 100%');
+                return false;
+            }
         }
     }
     
@@ -627,10 +637,7 @@ function populateInputTable() {
    ============================================= */
 
 /**
- * Note: As per requirements, no Local Storage is used.
- * Only sessionStorage is used for theme preference.
- * Session data is NOT persisted.
+ * Note: As per requirements, no Local Storage is used for calculation data.
+ * Only localStorage is used for theme preference.
+ * This is acceptable as it's just a UI preference, not calculation data.
  */
-
-// Theme is stored in localStorage for persistence across sessions
-// This is acceptable as it's just a UI preference, not calculation data
