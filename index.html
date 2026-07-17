@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zinc Leaching Batch Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left">
+                <h1 class="app-title">
+                    <i class="fas fa-flask-vial"></i> Zinc Leaching Batch Calculator
+                </h1>
+                <p class="company-name">SOLVEX RENEWABLES AND GREEN ENERGY PRIVATE LIMITED</p>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Chemical Reaction Banner -->
+        <section class="reaction-banner">
+            <div class="reaction-content">
+                <h3><i class="fas fa-flask"></i> Chemical Reaction</h3>
+                <p class="reaction-equation">Zn + H₂SO₄ → ZnSO₄ + H₂</p>
+            </div>
+        </section>
+
+        <!-- Tabs Navigation -->
+        <section class="tabs-section">
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="mode1">
+                    <i class="fas fa-scales"></i> Mode 1: From Zinc Ash
+                </button>
+                <button class="tab-btn" data-tab="mode2">
+                    <i class="fas fa-tank-water"></i> Mode 2: From Reactor Capacity
+                </button>
+            </div>
+        </section>
+
+        <!-- Mode 1: Calculate from Zinc Ash -->
+        <section id="mode1" class="tab-content active">
+            <div class="form-container">
+                <h2><i class="fas fa-edit"></i> Calculation Mode 1: Calculate from Zinc Ash</h2>
+                
+                <form id="form1" class="form">
+                    <!-- Batch Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Batch Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="batch1">Batch Number *</label>
+                                <input type="text" id="batch1" placeholder="e.g., BATCH-2026-001" required>
+                                <span class="error-msg" id="err-batch1"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="engineer1">Engineer Name *</label>
+                                <input type="text" id="engineer1" placeholder="Enter engineer name" required>
+                                <span class="error-msg" id="err-engineer1"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Process Inputs -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-flask-vial"></i> Process Inputs</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="zincAsh1">Zinc Ash (kg) *</label>
+                                <input type="number" id="zincAsh1" placeholder="e.g., 68" step="0.01" required>
+                                <span class="unit">kg</span>
+                                <span class="error-msg" id="err-zincAsh1"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="znPercent1">Zn % in Zinc Ash *</label>
+                                <input type="number" id="znPercent1" placeholder="e.g., 100" step="0.01" min="0" max="100" required>
+                                <span class="unit">%</span>
+                                <span class="error-msg" id="err-znPercent1"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="totalProcess1">Total Process (kg) *</label>
+                                <input type="number" id="totalProcess1" placeholder="e.g., 500" step="0.01" required>
+                                <span class="unit">kg</span>
+                                <span class="error-msg" id="err-totalProcess1"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" id="calculate1">
+                            <i class="fas fa-calculator"></i> Calculate
+                        </button>
+                        <button type="reset" class="btn btn-secondary" id="reset1">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Mode 2: Calculate from Reactor Capacity -->
+        <section id="mode2" class="tab-content">
+            <div class="form-container">
+                <h2><i class="fas fa-edit"></i> Calculation Mode 2: Calculate from Reactor Capacity</h2>
+                
+                <form id="form2" class="form">
+                    <!-- Batch Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Batch Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="batch2">Batch Number *</label>
+                                <input type="text" id="batch2" placeholder="e.g., BATCH-2026-001" required>
+                                <span class="error-msg" id="err-batch2"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="engineer2">Engineer Name *</label>
+                                <input type="text" id="engineer2" placeholder="Enter engineer name" required>
+                                <span class="error-msg" id="err-engineer2"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reactor Inputs -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-tank-water"></i> Reactor Parameters</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reactorCapacity">Reactor Capacity (L) *</label>
+                                <input type="number" id="reactorCapacity" placeholder="e.g., 1000" step="0.01" required>
+                                <span class="unit">L</span>
+                                <span class="error-msg" id="err-reactorCapacity"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="reactorUtilization">Reactor Utilization (%) *</label>
+                                <input type="number" id="reactorUtilization" placeholder="80" value="80" step="0.01" min="1" max="100" required>
+                                <span class="unit">%</span>
+                                <span class="error-msg" id="err-reactorUtilization"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="znPercent2">Zn % in Zinc Ash *</label>
+                                <input type="number" id="znPercent2" placeholder="e.g., 100" step="0.01" min="0" max="100" required>
+                                <span class="unit">%</span>
+                                <span class="error-msg" id="err-znPercent2"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" id="calculate2">
+                            <i class="fas fa-calculator"></i> Calculate
+                        </button>
+                        <button type="reset" class="btn btn-secondary" id="reset2">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-section" style="display: none;">
+            <h2><i class="fas fa-chart-bar"></i> Calculation Results</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-atom"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">Pure Zn</p>
+                        <p class="result-value" id="result-pureZn">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-droplet"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">Concentrated H₂SO₄</p>
+                        <p class="result-value" id="result-concentratedAcid">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-flask"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">Diluted Acid</p>
+                        <p class="result-value" id="result-dilutedAcid">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-water"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">Dilution Water</p>
+                        <p class="result-value" id="result-dilutionWater">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-tint"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">Process Water</p>
+                        <p class="result-value" id="result-processWater">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-flask-vial"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">ZnSO₄ Produced</p>
+                        <p class="result-value" id="result-znSulfate">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-wind"></i></div>
+                    <div class="result-content">
+                        <p class="result-label">Hydrogen Produced</p>
+                        <p class="result-value" id="result-hydrogenGas">0.00</p>
+                        <p class="result-unit">kg</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Report Button -->
+            <div class="print-section">
+                <button class="btn btn-info" id="printReport">
+                    <i class="fas fa-print"></i> Print Report
+                </button>
+            </div>
+        </section>
+
+        <!-- Hidden Print Report -->
+        <section id="reportPrint" class="report-print">
+            <div class="report-header">
+                <h1>SOLVEX RENEWABLES AND GREEN ENERGY PRIVATE LIMITED</h1>
+                <h2>Zinc Leaching Batch Calculation Report</h2>
+            </div>
+
+            <div class="report-section">
+                <h3>Batch Information</h3>
+                <div class="report-row">
+                    <div class="report-col">
+                        <strong>Batch Number:</strong> <span id="report-batch">-</span>
+                    </div>
+                    <div class="report-col">
+                        <strong>Engineer Name:</strong> <span id="report-engineer">-</span>
+                    </div>
+                </div>
+                <div class="report-row">
+                    <div class="report-col">
+                        <strong>Date:</strong> <span id="report-date">-</span>
+                    </div>
+                    <div class="report-col">
+                        <strong>Time:</strong> <span id="report-time">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <h3>Input Details</h3>
+                <table id="reportInputTable">
+                    <tr>
+                        <td><strong>Parameter</strong></td>
+                        <td><strong>Value</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="report-section">
+                <h3>Calculation Results</h3>
+                <table class="report-table">
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Pure Zn</td>
+                        <td><span id="report-pureZn">0.00</span> kg</td>
+                    </tr>
+                    <tr>
+                        <td>Concentrated H₂SO₄</td>
+                        <td><span id="report-concentratedAcid">0.00</span> kg</td>
+                    </tr>
+                    <tr>
+                        <td>Diluted Acid</td>
+                        <td><span id="report-dilutedAcid">0.00</span> kg</td>
+                    </tr>
+                    <tr>
+                        <td>Dilution Water</td>
+                        <td><span id="report-dilutionWater">0.00</span> kg</td>
+                    </tr>
+                    <tr>
+                        <td>Process Water</td>
+                        <td><span id="report-processWater">0.00</span> kg</td>
+                    </tr>
+                    <tr>
+                        <td>ZnSO₄ Produced</td>
+                        <td><span id="report-znSulfate">0.00</span> kg</td>
+                    </tr>
+                    <tr>
+                        <td>Hydrogen Produced</td>
+                        <td><span id="report-hydrogenGas">0.00</span> kg</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="report-section">
+                <h3>Chemical Reaction</h3>
+                <p class="equation">Zn + H₂SO₄ → ZnSO₄ + H₂</p>
+            </div>
+
+            <div class="report-section">
+                <h3>Molecular Weights</h3>
+                <table class="report-table">
+                    <tr>
+                        <th>Compound</th>
+                        <th>Molecular Weight (g/mol)</th>
+                    </tr>
+                    <tr>
+                        <td>Zn</td>
+                        <td>65</td>
+                    </tr>
+                    <tr>
+                        <td>H₂SO₄</td>
+                        <td>98</td>
+                    </tr>
+                    <tr>
+                        <td>ZnSO₄</td>
+                        <td>161</td>
+                    </tr>
+                    <tr>
+                        <td>H₂</td>
+                        <td>2</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="report-section">
+                <h3>Remarks</h3>
+                <p style="height: 60px; border: 1px solid #ccc;"></p>
+            </div>
+
+            <div class="report-section">
+                <h3>Approval</h3>
+                <table class="approval-table">
+                    <tr>
+                        <td>Prepared By</td>
+                        <td>Checked By</td>
+                        <td>Approved By</td>
+                    </tr>
+                    <tr>
+                        <td>_____________</td>
+                        <td>_____________</td>
+                        <td>_____________</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="report-footer">
+                <p>SOLVEX RENEWABLES AND GREEN ENERGY PRIVATE LIMITED</p>
+                <p>Zinc Leaching Batch Calculator | Version 1.0</p>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="help-section">
+            <h2 class="help-toggle">
+                <i class="fas fa-question-circle"></i> Help & Documentation
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </h2>
+
+            <div class="help-content">
+                <div class="help-subsection">
+                    <h3><i class="fas fa-flask"></i> Chemical Reaction</h3>
+                    <p>The zinc leaching process follows the reaction:</p>
+                    <p class="equation"><strong>Zn + H₂SO₄ → ZnSO₄ + H₂</strong></p>
+                </div>
+
+                <div class="help-subsection">
+                    <h3><i class="fas fa-weight"></i> Molecular Weights</h3>
+                    <ul>
+                        <li><strong>Zn</strong> = 65 g/mol</li>
+                        <li><strong>H₂SO₄</strong> = 98 g/mol</li>
+                        <li><strong>ZnSO₄</strong> = 161 g/mol</li>
+                        <li><strong>H₂</strong> = 2 g/mol</li>
+                    </ul>
+                </div>
+
+                <div class="help-subsection">
+                    <h3><i class="fas fa-calculator"></i> Calculation Formulas</h3>
+                    <table class="help-table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Formula</th>
+                        </tr>
+                        <tr>
+                            <td>Pure Zn</td>
+                            <td>Zinc Ash × Zn% ÷ 100</td>
+                        </tr>
+                        <tr>
+                            <td>Concentrated H₂SO₄</td>
+                            <td>Pure Zn × 98 ÷ 65</td>
+                        </tr>
+                        <tr>
+                            <td>Diluted Acid</td>
+                            <td>Concentrated H₂SO₄ × 2</td>
+                        </tr>
+                        <tr>
+                            <td>Dilution Water</td>
+                            <td>Concentrated H₂SO₄</td>
+                        </tr>
+                        <tr>
+                            <td>Process Water</td>
+                            <td>Total Process − (Zinc Ash + Diluted Acid)</td>
+                        </tr>
+                        <tr>
+                            <td>Total Water</td>
+                            <td>Process Water + Dilution Water</td>
+                        </tr>
+                        <tr>
+                            <td>ZnSO₄ Produced</td>
+                            <td>Pure Zn × 161 ÷ 65</td>
+                        </tr>
+                        <tr>
+                            <td>Hydrogen Produced</td>
+                            <td>Pure Zn × 2 ÷ 65</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="help-subsection">
+                    <h3><i class="fas fa-keyboard"></i> Input Guide</h3>
+                    <ul>
+                        <li><strong>Batch Number:</strong> Unique batch identification.</li>
+                        <li><strong>Engineer Name:</strong> Name of the responsible engineer.</li>
+                        <li><strong>Zinc Ash (kg):</strong> Weight of zinc ash used.</li>
+                        <li><strong>Zn % in Zinc Ash:</strong> Laboratory analyzed zinc purity.</li>
+                        <li><strong>Total Process (kg):</strong> Total desired batch size.</li>
+                        <li><strong>Reactor Capacity (L):</strong> Working reactor volume.</li>
+                        <li><strong>Reactor Utilization (%):</strong> Default 80%.</li>
+                    </ul>
+                </div>
+
+                <div class="help-subsection">
+                    <h3><i class="fas fa-chart-bar"></i> Output Explanation</h3>
+                    <ul>
+                        <li><strong>Pure Zn:</strong> Amount of pure zinc available.</li>
+                        <li><strong>Concentrated H₂SO₄:</strong> Theoretical sulfuric acid required.</li>
+                        <li><strong>Diluted Acid:</strong> Concentrated acid after 1:1 dilution.</li>
+                        <li><strong>Dilution Water:</strong> Water required for acid dilution.</li>
+                        <li><strong>Process Water:</strong> Remaining water after deducting zinc ash and diluted acid.</li>
+                        <li><strong>ZnSO₄ Produced:</strong> Theoretical zinc sulfate produced.</li>
+                        <li><strong>Hydrogen Produced:</strong> Theoretical hydrogen gas evolved.</li>
+                    </ul>
+                </div>
+
+                <div class="help-subsection warning">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Safety Notes</h3>
+                    <ul>
+                        <li>Always add <strong>acid to water</strong>, never water to acid.</li>
+                        <li>Wear appropriate PPE (Personal Protective Equipment).</li>
+                        <li>Use corrosion-resistant equipment.</li>
+                        <li>Ensure proper ventilation due to hydrogen evolution.</li>
+                        <li>Follow plant SOPs during batch preparation.</li>
+                    </ul>
+                </div>
+
+                <div class="help-subsection">
+                    <h3><i class="fas fa-lightbulb"></i> Tips</h3>
+                    <ul>
+                        <li>Verify Zn% from laboratory analysis.</li>
+                        <li>Ensure reactor capacity is sufficient before starting the batch.</li>
+                        <li>Double-check inputs before calculating.</li>
+                        <li>Print and attach the report to the batch file.</li>
+                        <li>Use the printed report for production documentation.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>
+                <strong>SOLVEX RENEWABLES AND GREEN ENERGY PRIVATE LIMITED</strong><br>
+                Zinc Leaching Batch Calculator | Version 1.0
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
