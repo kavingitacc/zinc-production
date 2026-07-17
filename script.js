@@ -180,18 +180,20 @@ function validateInput(input) {
         return true;
     }
     
-    // Engineer name validation (letters and spaces only)
+    // Engineer name validation (letters and spaces only) - must be done BEFORE numeric validation
     if (input.id.includes('engineer')) {
         if (!/^[a-zA-Z\s]+$/.test(value)) {
-            showError(input, 'Engineer name must contain letters and spaces only (no numbers or special characters)');
+            showError(input, 'Engineer name must contain letters and spaces only');
             return false;
         }
+        return true; // Exit after validation - don't proceed to number validation
     }
     
-    const numValue = parseFloat(value);
-    
-    // Check if valid number (for numeric fields)
+    // For numeric fields, validate as number
     if (input.type === 'number') {
+        const numValue = parseFloat(value);
+        
+        // Check if valid number
         if (isNaN(numValue)) {
             showError(input, 'Please enter a valid number');
             return false;
